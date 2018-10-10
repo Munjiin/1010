@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+
+
+
+<body>
+
+<style>
+    .spinner{
+        position: absolute;
+        display: none; /*보이지 않는다는 것. 돔으로는 존재*/
+    }
+</style>
+
+
+
+
+
+
+<!--아이디 중복체크-->
+<form class="form" action="http://www.naver.com">
+
+    <img class="spinner" src="spinner.gif">
+
+    <div>
+        <input type="text" name="uid" value="AAA">
+        <span class="msg"></span>
+        <button id="checkBtn">중복체크</button>
+    </div>
+
+    <div>
+        <input type="password" name="upw">
+    </div>
+
+    <div>
+        <input type="text" name="email">
+    </div>
+
+    <button>btn</button>
+
+</form>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script> <!--//jquery 라이브러리-->
+
+<script>
+    //폼엑션 이벤트 안 받게 하기
+    $(document).ready(function () {
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            console.log("button clicked..");
+
+            var obj={};
+            obj.uid = $("input[name='uid']").val();
+            obj.upw = $("input[name='upw']").val();
+            obj.email = $("input[name='email']").val();
+
+            $.post("http://10.10.10.87:8080/jsonEx/join",obj,function (text) {
+                alert(text);
+            });
+
+
+        }); //버튼 눌러도 이벤트 안 일어남.
+
+        $("#checkBtn").on("click",(e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("click...");
+
+            $(".spinner").show('slow');
+
+            var input=$("input[name='uid']");
+           // console.log(input.val()); //파라미터가 없으면 get 있으면 set
+            var userInput = input.val();
+
+            $.ajax({
+               url:"http://localhost:8080/jsonEx/idCheck", //서버 아이피
+               data:{str:userInput,pw:"1234"}, //url이 자동으로 만들어짐
+                success: function (result) { //성공한다면,,,
+                   console.log(result);
+                   if(result='Yes'){
+                       $(".msg").html("해당 아이디는 사용이 가능합니다.");
+
+                       // $(".spinner").hide('slow');
+                   }
+                    if(result='No'){
+                       alert("사용 불가! 바꾸시오");
+                   }
+                    $(".spinner").hide('slow');
+
+
+                }
+            });
+
+        });
+    });
+
+
+    /* 서버용 서블릿릿
+    pakage org.zerock.web;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+    @WebServlet("/idCheck")
+    public class idCheckServlet extends HttpServlet {
+        private static final long serialVersionUID = 1L;
+
+
+        public idCheckServlet() {
+            super();
+
+        }
+
+
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<String> ids = new ArrayList<>();
+        ids.add("AAA");
+
+        try {
+        Thread.sleep(5000);
+    } catch (InterruptedException e) {
+
+        e.printStackTrace();
+    }
+
+    response.setContentType("text/plain");
+    String result = ids.indexOf(request.getParameter("str")) >=0 ? "No" : "Yes";
+
+    response.getWriter().print(result);
+    }
+
+    }
+
+    */
+</script>
+</body>
+</html>

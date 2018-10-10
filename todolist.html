@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="myDIV" class="header">
+    <h1>투두리슷,,,,흐!</h1>
+
+    <input type="text" id="myInput" placeholder="Title...">
+
+
+    <!--<span onclick="newElement()" class="addBtn">Add</span>-->
+    <button id="add">add</button>
+</div>
+
+<ul id="myUL">
+
+
+    <li class="checked">Pay bills<button>x</button></li>
+
+</ul>
+
+
+<!--=-=========================================================-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+
+<script>
+
+    var i=0;
+
+    $("#add").click(function () {
+        console.log("click");
+        var text = $("#myInput").val();
+        console.log(text);
+
+        $("#myUL").append("<li class= idx"+ i++ +">"+$("#myInput").val()+" <button id='delete'>x</button></li>");
+
+        $("#delete").click(function () {
+
+            $(".idx0").remove();
+        });
+
+
+    });
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

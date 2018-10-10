@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<style>
+    .sample{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: blueviolet;
+
+        /*가운데 정렬 */
+        top: 50%;
+        left:50%;
+        margin-top:-50px;
+        margin-left:-50px;
+        transition-duration: 3s;
+
+    }
+    .big{
+
+        transform: scale(2) rotateX(360deg) ;
+    }
+</style>
+
+<button id="showBtn">show</button>
+<button id="hideBtn">hide</button>
+<div class="sample">
+    sample
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script> <!--//jquery 라이브러리-->
+<script>
+
+    //음식추천
+    $(document).ready(function () { //버튼 이벤트 시 아이디를 준비해줌. 없으면 이것의 위치가 중요
+
+        var sample = $(".sample");
+
+        $.getJSON("http://10.10.10.95:8080/jsonEx/quiz",(result)=>{
+            console.log(result);
+            sample.html(result.name).addClass("big");
+        });
+
+    });
+
+        /*
+        console.log("AAA");
+
+        //css같은거 안걸어도 제이쿼리로 가능해짐
+        $("#hideBtn").click(function () {
+            $(".sample").hide('slow');
+        });
+
+        $("#showBtn").click(function () {
+            $(".sample").show('slow');
+        });
+
+
+    });
+    */
+    $(document).ready(function () {
+        console.log("BBB");
+    });
+
+
+
+    /* 이클립스에 작성된 서버용 서블릿
+    //음식 추천
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json");
+
+		List<Menu> menuList = new ArrayList<>();
+		menuList.add(new Menu("A",3000));
+		menuList.add(new Menu("B",4000));
+		menuList.add(new Menu("C",5000));
+		menuList.add(new Menu("D",6000));
+		menuList.add(new Menu("E",7000));
+
+		Collections.shuffle(menuList);
+
+
+		Gson gson = new Gson();
+		String json = gson.toJson(menuList.get(0));
+
+		response.getWriter().print(json);
+	}
+	*/
+</script>
+
+</body>
+
+
+</html>
+
+
