@@ -1,0 +1,223 @@
+프로젝트 명: 1010
+
+<kquery.javascript 파일>
+
+
+(function(){
+   console.log("kquery...");
+})(); //즉시 실행함수
+
+
+<test.html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1 id="target"> Hello~~! </h1>
+
+<script src = "kquery.js"></script>
+
+<script>
+
+</script>
+
+</body>
+</html>
+
+
+--------------------------------->kquery 콘솔에 찍힘..
+=======================================
+https://developers.google.com/speed/libraries/#jquery
+구글의 cdn을 이용
+<ex01.html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> //min 지우기(compact)
+
+
+</body>
+</html>
+
+
+---------------------- document.ready 사용 시 dom 로딩 안기다려도 됨..
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("AAA");
+    })
+
+    $(document).ready(function () {
+        console.log("BBB");
+    })
+
+</script>
+
+</body>
+</html>
+---------------------------------제이쿼리는 순수데이터를 가져오지 않음
+=======================================================================
+음식 추천 프로그램
+
+<서버만...>
+
+
+<servlet.java>
+protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json");
+		
+		List<Menu> menuList = new ArrayList<>();
+		menuList.add(new Menu("A",3000));
+		menuList.add(new Menu("B",4000));
+		menuList.add(new Menu("C",5000));
+		menuList.add(new Menu("D",6000));
+		menuList.add(new Menu("E",7000));
+		
+		Collections.shuffle(menuList);
+
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(menuList.get(0));
+		
+		response.getWriter().print(json);
+	}
+
+---------------------------------------
+<ex01.html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<style>
+    .sample{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: blueviolet;
+
+        /*가운데 정렬 */
+        top: 50%;
+        left:50%;
+        margin-top:-50px;
+        margin-left:-50px;
+        transition-duration: 3s;
+
+    }
+    .big{
+
+        transform: scale(2) rotateX(360deg) ;
+    }
+</style>
+
+<button id="showBtn">show</button>
+<button id="hideBtn">hide</button>
+
+
+<div class="sample">
+    sample
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script> <!--//jquery 라이브러리-->
+<script>
+
+    //음식추천
+    $(document).ready(function () {
+
+        var sample = $(".sample");
+
+        $.getJSON("http://10.10.10.95:8080/jsonEx/quiz",(result)=>{
+            console.log(result);
+            sample.html(result.name).addClass("big");
+        });
+
+    });
+
+        /*
+        console.log("AAA");
+
+        //css같은거 안걸어도 제이쿼리로 가능해짐
+        $("#hideBtn").click(function () {
+            $(".sample").hide('slow');
+        });
+
+        $("#showBtn").click(function () {
+            $(".sample").show('slow');
+        });
+
+
+    });
+    */
+    $(document).ready(function () {
+        console.log("BBB");
+    });
+</script>
+
+</body>
+</html>
+
+=============================================================================
+
+<ex02.html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--아이디 중복체크-->
+<form class="form" action="http://www.naver.com">
+
+    <div>
+        <input type="text" name="uid" value="AAA">
+        <button id="checkBtn">중복체크</button>
+    </div>
+
+    <div>
+
+    </div>
+    <button>btn</button>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script> <!--//jquery 라이브러리-->
+
+<script>
+    //폼엑션 이벤트 안 받게 하기
+    $(document).ready(function () {
+
+        $("#checkBtn").on("click",(e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("click...");
+
+            var input=$("input[name='uid']");
+            console.log(input.val()); //파라미터가 없으면 get 있으면 set
+        });
+    });
+</script>
+</body>
+</html>
